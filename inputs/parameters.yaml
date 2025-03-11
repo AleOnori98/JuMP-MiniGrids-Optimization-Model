@@ -1,0 +1,72 @@
+# PROJECT SETTINGS and OPTIMIZATION CONSTRAINTS
+#-----------------------------------------------------------
+
+project_settings:
+  # Project lifetime [years]
+  project_lifetime: 20
+  # Discount rate
+  discount_rate: 0.1
+  # Currency
+  currency: NOK
+
+optimization_settings:
+  # Maximum annual Lost load as share of total demand to avoid overloading the system
+  max_lost_load_share: 0.05
+  # Maximum CAPEX
+  max_capex : 1000000
+  # Minimum Renewable Peneration (annual share of total demand) to regulate generator usage (only if generator is enabled)
+  min_res_share: 0.5
+  # Allow for unit committment for each of the sizing variables (unit of nominal capacity as integer solution). NOTE: This may increase the computation time. 
+  solar_integer_solution: true
+  battery_integer_solution: true
+  generator_integer_solution: true
+
+
+# TECHNO-ECONOMIC PARAMETERS
+#--------------------------------------------------------------
+
+# Solar PV Parameters
+solar:
+  nominal_capacity: 1         # Nominal capacity of solar PV system in kW
+  capex: 7100                 # Specific investment cost per kW
+  opex: 0.01                  # Fixed O&M cost as annual share of investment cost
+  subsidy: 0.3                # Subsidy as a share of investment cost
+  lifetime: 20                # Lifetime of solar PV system in years
+
+# Battery Parameters
+battery:
+  nominal_capacity: 1         # Nominal capacity of battery system in kWh
+  capex: 1900                 # Specific investment cost per kWh
+  opex: 0.02                  # Fixed O&M cost as annual share of investment cost
+  lifetime: 10                # Expected lifetime of battery system in years
+  operation:
+    charge_time: 5            # Battery charging time in hours
+    discharge_time: 5         # Battery discharging time in hours
+  efficiency:
+    charge: 0.95              # Battery charging efficiency
+    discharge: 0.95           # Battery discharging efficiency
+  SOC:
+    min: 0.2                  # Minimum state of charge as a percentage
+    max: 0.9                  # Maximum state of charge as a percentage
+    initial: 0.5              # Initial state of charge as a percentage
+
+# Backup Generator Parameters
+generator:
+  enabled: false              # Enable backup generator (true/false)
+  nominal_capacity: 1         # Nominal capacity of backup generator in kW
+  capex: 2000                 # Specific investment cost per kW
+  opex: 0.02                  # Fixed O&M cost as annual share of investment cost
+  fuel_lhv: 9.5               # Fuel lower heating value in kWh/l
+  fuel_cost: 10               # Fuel cost per liter
+  efficiency: 0.3             # Generator efficiency
+  lifetime: 20                # Lifetime of backup generator in years
+
+# SOLVER SETTINGS
+#--------------------------------------------------------------
+
+solver_settings:
+  # GLPK solver settings
+  glpk_options:
+    presolve: true      # Use presolve to simplify the problem (true/false)
+    msg_lev: 3          # Message level (0-4)
+    tm_lim: 10000000    # Time limit in milliseconds for solving the problem
