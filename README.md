@@ -58,7 +58,7 @@ This should return the installed Julia version.
 If the project is hosted on a Git repository, clone it using:
 
 ``
-git clone https://github.com/your-repo/GridVille.git
+git clone https://github.com/AleOnori98/GridVille-Optimization-Model.git
 ``
 
 Then, navigate to the project directory:
@@ -106,6 +106,13 @@ Execute the model by running the main script `core/main.jl`. The solver will opt
 ### Step 6: View and Analyze Results
 
 After execution, the results will be stored in the `results/` folder. The optimized dispatch can be analyzed using spreadsheet software or data visualization tools.
+A Python script `dispatch_plot.py` is provided to generate a dispatch plot for a selected day, helping to visualize how the energy system operates over time. The script reads the optimized dispatch results from `results/optimal_dispatch.csv` and creates a stacked energy flow plot, showing the contributions from solar PV, battery charging/discharging, generator (if enabled), and lost load.  
+
+The dispatch plot helps to assess the system's performance by illustrating:  
+- How energy demand is met by different sources over the course of a day.  
+- The extent of battery charging and discharging cycles.  
+- Generator utilization (if applicable).  
+- Instances of lost load or curtailment.  
 
 ## Example Scenarios
 
