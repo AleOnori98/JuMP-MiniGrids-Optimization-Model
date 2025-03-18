@@ -17,6 +17,7 @@ max_capex = parameters["optimization_settings"]["max_capex"]
 min_res_share = parameters["optimization_settings"]["min_res_share"]
 solar_integer_solution = parameters["optimization_settings"]["solar_integer_solution"]
 battery_integer_solution = parameters["optimization_settings"]["battery_integer_solution"]
+has_generator = parameters["generator"]["enabled"]
 if has_generator
     generator_integer_solution = parameters["optimization_settings"]["generator_integer_solution"]
 end
@@ -42,7 +43,6 @@ t_charge = parameters["battery"]["operation"]["charge_time"]
 t_discharge = parameters["battery"]["operation"]["discharge_time"]  
 
 # Extract Generator params
-has_generator = parameters["generator"]["enabled"]
 generator_nominal_capacity = parameters["generator"]["nominal_capacity"] 
 generator_capex = parameters["generator"]["capex"]                      
 generator_opex = parameters["generator"]["opex"]                        
