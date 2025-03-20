@@ -204,15 +204,15 @@ function main()
     println("  Disc. Salvage Value   : ", round(value(Salvage_npv) / 1000, digits=2), " k$currency")
 
     println("\nOptimal Operation:")
-    println("  Total Annual Solar Production: ", round(sum(value(solar_production[t]) for t in 1:T) / 1000, digits=2), "MWh/year")
-    println("  Total Annual Battery Discharge: ", round(sum(value(battery_discharge[t]) for t in 1:T) / 1000, digits=2), "MWh/year")
-    println("  Total Annual Battery Charge: ", round(sum(value(battery_charge[t]) for t in 1:T) / 1000, digits=2), "MWh/year")
+    println("  Total Annual Solar Production: ", round(sum(value(solar_production[t]) for t in 1:T) / 1000, digits=2), " MWh/year")
+    println("  Total Annual Battery Discharge: ", round(sum(value(battery_discharge[t]) for t in 1:T) / 1000, digits=2), " MWh/year")
+    println("  Total Annual Battery Charge: ", round(sum(value(battery_charge[t]) for t in 1:T) / 1000, digits=2), " MWh/year")
     if has_generator
-        println("  Total Annual Generator Production: ", round(sum(value(generator_production[t]) for t in 1:T) / 1000, digits=2), "MWh/year")
+        println("  Total Annual Generator Production: ", round(sum(value(generator_production[t]) for t in 1:T) / 1000, digits=2), " MWh/year")
     end
-    println("  Lost Load Share: ", round(sum(value(lost_load[t]) for t in 1:T) / sum(load) * 100, digits=2), "% of total load")
+    println("  Lost Load Share: ", round(sum(value(lost_load[t]) for t in 1:T) / sum(load) * 100, digits=2), " % of total load")
     if has_generator
-        println("  Renewable Penetration: ", round((sum(value(solar_production[t]) for t in 1:T) / sum((value(solar_production[t]) + value(generator_production[t])) for t in 1:T)) * 100, digits=2), "% of total generation")
+        println("  Renewable Penetration: ", round((sum(value(solar_production[t]) for t in 1:T) / sum((value(solar_production[t]) + value(generator_production[t])) for t in 1:T)) * 100, digits=2), " % of total generation")
     end
 
     # POST-PROCESSING

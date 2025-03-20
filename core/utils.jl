@@ -53,7 +53,7 @@ function write_results_to_csv(model::Model, dispatch_path::String, load::Vector{
 
     # Write the dispatch results to a CSV file
     CSV.write(dispatch_path, energy_balance_table)
-    println("Dispatch results written to $dispatch_path")
+    println("\nDispatch results written to $dispatch_path")
 
 end
 
