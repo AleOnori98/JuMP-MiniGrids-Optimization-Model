@@ -1,0 +1,55 @@
+# Battery degradation configuration for each chemistry and depth of discharge (DoD)
+# Coefficients define temperature-dependent degradation polynomials used to compute alpha and beta.
+# - base_life: nominal cycle life under standard conditions (used as a scaling factor)
+# - Alpha: capacity fade slope
+# - Beta: energy throughput degradation slope, temperature-dependent
+
+# Lithium Iron Phosphate (LFP)
+# - Known for long life cycles and thermal stability
+Lithium_LFP:
+  base_life: 6400
+  equations:
+    0.8:
+      a: [3.446908e-10, 1.240398e-9, 1.053498e-8, 1.970248e-8]
+      b: [6.337047e-7, -2.869914e-6, 9.192472e-6, 3.861381e-6]
+    0.9:
+      a: [3.446908e-10, 1.240398e-9, 1.053498e-8, 1.970248e-8]
+      b: [6.070837e-7, -2.769339e-6, 8.701044e-6, 3.423667e-6]
+    0.7:
+      a: [4.485623e-10, 1.614189e-9, 1.370967e-8, 2.563976e-8]
+      b: [7.549737e-7, -3.721425e-6, 1.167026e-5, 3.269498e-6]
+    0.6:
+      a: [4.485623e-10, 1.614189e-9, 1.370967e-8, 2.563976e-8]
+      b: [8.528446e-7, -4.189309e-6, 1.323273e-5, 3.85312e-6]
+    0.5:
+      a: [4.485623e-10, 1.614189e-9, 1.370967e-8, 2.563976e-8]
+      b: [9.085917e-7, -4.051845e-6, 1.32569e-5, 6.130398e-6]
+
+# Lithium Nickel Manganese Cobalt Oxide (NMC)
+# - Higher energy density than LFP, but more sensitive to temperature and DoD
+Lithium_NMC:
+  base_life: 5000
+  equations:
+    0.8:
+      a: [8.32382e-11, 8.912264e-10, 6.706961e-9, 1.814235e-8]
+      b: [1.403785e-6, -4.530322e-6, 1.324309e-5, -2.212139e-6]
+    0.9:
+      a: [8.32382e-11, 8.912264e-10, 6.706961e-9, 1.814235e-8]
+      b: [1.326799e-6, -4.21017e-6, 1.256349e-5, -1.862879e-6]
+    0.7:
+      a: [9.208524e-11, 9.854044e-10, 7.418433e-9, 2.006416e-8]
+      b: [1.543396e-6, -5.03352e-6, 1.451821e-5, -2.625175e-6]
+    0.6:
+      a: [9.208524e-11, 9.854044e-10, 7.418433e-9, 2.006416e-8]
+      b: [1.746515e-6, -5.739906e-6, 1.640342e-5, -3.106159e-6]
+    0.5:
+      a: [9.208524e-11, 9.854044e-10, 7.418433e-9, 2.006416e-8]
+      b: [2.044415e-6, -6.759912e-6, 1.917865e-5, -3.760983e-6]
+
+# Lead-Acid Battery
+# - Shorter cycle life, strong DoD sensitivity, degradation not temperature-dependent in this model
+Lead_Acid:
+  base_life: 3000
+  fixed:
+    a: 2.283105e-6
+    b_coeffs: [-1.012639e-7, 1.534911e-6, -8.427153e-6, 2.813216e-5]

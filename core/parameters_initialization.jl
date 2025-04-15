@@ -30,17 +30,17 @@ solar_subsidy_share = parameters["solar"]["subsidy"]
 solar_lifetime = parameters["solar"]["lifetime"]            
 
 # Extract Battery params  
-battery_nominal_capacity = parameters["battery"]["nominal_capacity"]  
-battery_capex = parameters["battery"]["capex"]                      
-battery_opex = parameters["battery"]["opex"]                        
-battery_lifetime = parameters["battery"]["lifetime"]               
-η_charge = parameters["battery"]["efficiency"]["charge"]            
-η_discharge = parameters["battery"]["efficiency"]["discharge"]      
-SOC_min = parameters["battery"]["SOC"]["min"]                       
-SOC_max = parameters["battery"]["SOC"]["max"]                       
-SOC_0 = parameters["battery"]["SOC"]["initial"]                     
-t_charge = parameters["battery"]["operation"]["charge_time"]        
-t_discharge = parameters["battery"]["operation"]["discharge_time"]  
+battery_nominal_capacity = parameters["battery"]["nominal_capacity"]           
+battery_capex = parameters["battery"]["capex"]                                 
+battery_opex = parameters["battery"]["opex"]        
+battery_expected_lifetime = parameters["battery"]["expected_lifetime"]                                      
+η_charge = parameters["battery"]["efficiency"]["charge"]                       
+η_discharge = parameters["battery"]["efficiency"]["discharge"]                 
+SOC_min = parameters["battery"]["SOC"]["min"]                                  
+SOC_max = parameters["battery"]["SOC"]["max"]                                  
+SOC_0 = parameters["battery"]["SOC"]["initial"]                                
+t_charge = parameters["battery"]["operation"]["charge_time"]                   
+t_discharge = parameters["battery"]["operation"]["discharge_time"]   
 
 # Extract Generator params
 generator_nominal_capacity = parameters["generator"]["nominal_capacity"] 
@@ -48,22 +48,26 @@ generator_capex = parameters["generator"]["capex"]
 generator_opex = parameters["generator"]["opex"]                        
 fuel_lhv = parameters["generator"]["fuel_lhv"]                       
 fuel_cost = parameters["generator"]["fuel_cost"]                     
-generator_efficiency = parameters["generator"]["efficiency"]            
-generator_lifetime = parameters["generator"]["lifetime"]                
+generator_nominal_efficiency = parameters["generator"]["nominal_efficiency"]            
+generator_lifetime = parameters["generator"]["lifetime"]        
+partial_load = parameters["generator"]["partial_load"]
+if partial_load
+    sampling_points = parameters["generator"]["sampling_points"]
+end
 
 # Calculate the yearly discount factor
 discount_factor = [1 / ((1 + discount_rate) ^ y) for y in 1:project_lifetime]
 
 # Calculate number of replacements for each component
 solar_replacements = max(0, floor((project_lifetime - 1) / solar_lifetime))
-battery_replacements = max(0, floor((project_lifetime - 1) / battery_lifetime))
+battery_replacements = max(0, floor((project_lifetime - 1) / battery_expected_lifetime))
 if has_generator 
     generator_replacements = max(0, floor((project_lifetime - 1) / generator_lifetime))
 end
 
 # Build arrays of valid replacement times (in whole years), up to project_lifetime - 1 ensuring not to index discount_factor past the end.
 solar_replacement_years = solar_lifetime : solar_lifetime : Int(floor((project_lifetime - 1) / solar_lifetime) * solar_lifetime)
-battery_replacement_years = battery_lifetime : battery_lifetime : Int(floor((project_lifetime - 1) / battery_lifetime) * battery_lifetime)
+battery_replacement_years = battery_expected_lifetime : battery_expected_lifetime : Int(floor((project_lifetime - 1) / battery_expected_lifetime) * battery_expected_lifetime)
 if has_generator 
     generator_replacement_years = generator_lifetime : generator_lifetime : Int(floor((project_lifetime - 1) / generator_lifetime) * generator_lifetime)
 end
@@ -74,8 +78,8 @@ unused_solar_life = solar_lifetime - (project_lifetime - last_install_solar)
 salvage_solar_fraction = max(0, unused_solar_life / solar_lifetime)
 
 last_install_battery = length(battery_replacement_years) == 0 ? 0 : maximum(battery_replacement_years)
-unused_battery_life = battery_lifetime - (project_lifetime - last_install_battery)
-salvage_battery_fraction = max(0, unused_battery_life / battery_lifetime)
+unused_battery_life = battery_expected_lifetime - (project_lifetime - last_install_battery)
+salvage_battery_fraction = max(0, unused_battery_life / battery_expected_lifetime)
 
 if has_generator
     last_install_generator = length(generator_replacement_years) == 0 ? 0 : maximum(generator_replacement_years)

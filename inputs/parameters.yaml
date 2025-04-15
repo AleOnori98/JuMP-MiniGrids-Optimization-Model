@@ -15,11 +15,11 @@ optimization_settings:
   # Maximum CAPEX
   max_capex : 1000000
   # Minimum Renewable Peneration (annual share of total demand) to regulate generator usage (only if generator is enabled)
-  min_res_share: 0.5
+  min_res_share: 0.0
   # Allow for unit committment for each of the sizing variables (unit of nominal capacity as integer solution). NOTE: This may increase the computation time. 
-  solar_integer_solution: true
-  battery_integer_solution: true
-  generator_integer_solution: true
+  solar_integer_solution: false
+  battery_integer_solution: false
+  generator_integer_solution: false
 
 
 # TECHNO-ECONOMIC PARAMETERS
@@ -35,31 +35,33 @@ solar:
 
 # Battery Parameters
 battery:
-  nominal_capacity: 1         # Nominal capacity of battery system in kWh
-  capex: 1900                 # Specific investment cost per kWh
-  opex: 0.02                  # Fixed O&M cost as annual share of investment cost
-  lifetime: 10                # Expected lifetime of battery system in years
+  nominal_capacity: 1     # [kWh] Nominal capacity of battery system
+  capex: 3000             # Specific investment cost per nominal capacity
+  opex: 0.05              # Fixed O&M cost as annual share of investment cost
+  expected_lifetime: 8    # Expected lifetime of battery system in years
   operation:
-    charge_time: 5            # Battery charging time in hours
-    discharge_time: 5         # Battery discharging time in hours
+    charge_time: 5            # [hours] Charging time
+    discharge_time: 5         # [hours] Discharging time
   efficiency:
-    charge: 0.95              # Battery charging efficiency
-    discharge: 0.95           # Battery discharging efficiency
+    charge: 0.95              # Charging efficiency
+    discharge: 0.95           # Discharging efficiency
   SOC:
-    min: 0.2                  # Minimum state of charge as a percentage
-    max: 0.9                  # Maximum state of charge as a percentage
-    initial: 0.5              # Initial state of charge as a percentage
+    min: 0.2                  # Minimum state of charge 
+    max: 0.9                  # Maximum state of charge 
+    initial: 0.5              # Initial state of charge
 
 # Backup Generator Parameters
 generator:
-  enabled: false              # Enable backup generator (true/false)
+  enabled: true              # Enable backup generator (true/false)
   nominal_capacity: 1         # Nominal capacity of backup generator in kW
-  capex: 2000                 # Specific investment cost per kW
+  capex: 1000                 # Specific investment cost per kW
   opex: 0.02                  # Fixed O&M cost as annual share of investment cost
-  fuel_lhv: 9.5               # Fuel lower heating value in kWh/l
-  fuel_cost: 10               # Fuel cost per liter
-  efficiency: 0.3             # Generator efficiency
+  fuel_lhv: 9.5               # Fuel lower heating value in kWh/liter
+  fuel_cost: 5               # Fuel cost per liter
   lifetime: 20                # Lifetime of backup generator in years
+  nominal_efficiency: 0.35    # Generator nominal efficiency (used if partial_load is false)
+  partial_load: true         # Enable partial load effect (piecewise linear approximation)
+  sampling_points: 10          # Number of sampling points for partial load efficiency curve (if enabled)
 
 # SOLVER SETTINGS
 #--------------------------------------------------------------
@@ -70,3 +72,9 @@ solver_settings:
     presolve: true      # Use presolve to simplify the problem (true/false)
     msg_lev: 3          # Message level (0-4)
     tm_lim: 10000000    # Time limit in milliseconds for solving the problem
+  # Gurobi solver settings
+  gurobi_options:
+    Method: 2            # Optimization method: 0=primal simplex, 1=dual simplex, 2=barrier
+    OutputFlag: 1        # Display solver output (0 = off, 1 = on)
+    TimeLimit: 3600      # Time limit in seconds
+    MIPGap: 0.001        # Relative MIP optimality gap (e.g., 0.1% gap)
