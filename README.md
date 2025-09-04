@@ -3,6 +3,7 @@
 ## Overview
 
 The project provides a tool designed to optimize the sizing and dispatch of a hybrid renewable energy system. It determines the optimal capacities for solar PV, battery storage, and, if enabled, a backup generator. The optimization aims to minimize the **Net Present Cost (NPC)** over the project lifetime while ensuring operational feasibility and maintaining constraints on investment limits, renewable penetration, and energy reliability.
+Trial
 
 ## Features
 
