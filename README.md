@@ -6,12 +6,6 @@ The project provides a tool designed to optimize the sizing and dispatch of a hy
 Trial
 Trial2
 
-
-Fixing the error
-
-Fixing the error2
-Fixing the error3
-
 ## Features
 
 - **System Sizing:** Determines the required capacity for solar PV, batteries, and backup generators.
