@@ -9,6 +9,8 @@ Trial2
 
 Fixing the error
 
+Fixing the error2
+
 ## Features
 
 - **System Sizing:** Determines the required capacity for solar PV, batteries, and backup generators.
